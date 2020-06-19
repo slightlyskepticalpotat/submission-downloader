@@ -18,22 +18,21 @@ If you have downloaded the binaries, use ```./submission-downloader``` or ```sub
 $ python3 submission-downloader.py --help
 usage: submission-downloader.py [-h] [--aconly] [--best] [--fast]
                                 [--overwrite]
-                                username session_id
+                                apitoken username
 
 Downloads online judge submissions from DMOJ.
 
 positional arguments:
+  apitoken         Your API token, can be retrived from your DMOJ profile
   username         Your username, can be retrived from your DMOJ profile
-  session_id       Your session ID, can be retrived from your browser's
-                   Developer tools
 
 optional arguments:
   -h, --help       show this help message and exit
-  --aconly, -a     Only download submissions if they are correct, recommended.
+  --aconly, -a     Only download submissions if they are correct, recommended
   --best, -b       Only download the best submission for each problem,
-                   recommended.
-  --fast, -f       Ignore the DMOJ API ratelimit, not recommended.
-  --overwrite, -o  Overwrite existing downloaded submissions, recommended.
+                   recommended
+  --fast, -f       Ignore the DMOJ API ratelimit, not recommended
+  --overwrite, -o  Overwrite existing downloaded submissions, recommended
   ```
 
 ## Todo
