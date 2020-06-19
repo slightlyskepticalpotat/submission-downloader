@@ -28,7 +28,7 @@ positional arguments:
 
 optional arguments:
   -h, --help       show this help message and exit
-  --aconly, -a     Only download submissions if they are correct, recommended
+  --aconly, -a     Only download submissions if they earn points, recommended
   --best, -b       Only download the best submission for each problem,
                    recommended
   --fast, -f       Ignore the DMOJ API ratelimit, not recommended
