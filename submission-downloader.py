@@ -41,14 +41,16 @@ class SubmissionDownloader:
         if self.overwrite == True:
             try:
                 shutil.rmtree("downloaded-submissions")
-                os.mkdir("downloaded-submissions")
-            finally:
-                os.chdir("downloaded-submissions")
+            except:
+                pass
+            os.mkdir("downloaded-submissions")
+            os.chdir("downloaded-submissions")
         else:
             try:
                 os.mkdir("downloaded-submissions")
-            finally:
-                os.chdir("downloaded-submissions")
+            except:
+                pass
+            os.chdir("downloaded-submissions")
         if self.aconly == True:
             submissions = [thing for thing in submissions if thing[4] == "AC" or thing[4] == "_AC"]
         else:
