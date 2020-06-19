@@ -6,7 +6,7 @@ Submission Downloader downloads your submissions in bulk from [DMOJ](https://dmo
 ### Installing
 This program can be installed in two different ways. You can clone the repository and run the code yourself with Python 3 or download prebuilt binaries that will run without Python from our releases page:
 
-1. Install the prerequisites with ```$ pip3 install -r requirements.txt```. Next, go to the [releases page](https://github.com/ComputerGenius152/submission-downloader/releases) and download ```submission-downloader.py```. Run the program with ```python3 submission-downloader.py```.
+1. Install the prerequisites with ```$ pip3 install -r requirements.txt```. Next, download [submission-downloader.py](submission-downloader.py). Run the program with ```python3 submission-downloader.py```.
 
 2. Go to the [releases page](https://github.com/ComputerGenius152/submission-downloader/releases) and download the prebuilt binary file for your operating system. You can run the program with ```./submission-downloader``` or ```submission-downloader.exe```.
 
