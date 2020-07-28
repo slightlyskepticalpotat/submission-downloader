@@ -82,7 +82,7 @@ class SubmissionDownloader:
         print("Getting submission IDs...")
         submission_ids = self.get_submission_ids()
         self.get_submission_sources(submission_ids)
-        print("All submissions downloaded.")
+        print("{submissions} submissions downloaded.".format(submissions=len(os.listdir())))
 
 
 def main():
