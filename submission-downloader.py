@@ -90,7 +90,7 @@ def main():
     parser.add_argument("apitoken", help="Your API token, can be retrived from your DMOJ profile", type=str)
     parser.add_argument("username", help="Your username, can be retrived from your DMOJ profile", type=str)
     parser.add_argument("--aconly", "-a", default=False, action="store_true", help="Only download submissions if they earn points, recommended")
-    parser.add_argument("--best", "-b", default=False, action="store_true", help="Only download the best submission for each problem, recommended")
+    parser.add_argument("--best", "-b", default=False, action="store_true", help="Only download the best submission for each problem and programming language, recommended")
     parser.add_argument("--fast", "-f", default=False, action="store_true", help="Ignore the DMOJ API ratelimit, not recommended")
     parser.add_argument("--overwrite", "-o", default=False, action="store_true", help="Overwrite existing downloaded submissions, recommended")
     arguments = parser.parse_args()
