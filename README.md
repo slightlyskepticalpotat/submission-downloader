@@ -1,5 +1,5 @@
 # submission-downloader
-submission-downloader downloads your submissions in bulk from [DMOJ](https://dmoj.ca/). You can tell it to download all your submissions, all the correct ones, or the best submission from each question. This complements [dmoj-submission-downloader](https://github.com/Ninjaclasher/dmoj-submission-downloader), which downloads all the submissions for a problem. Although the code shares some similiarities with it, it was not originally forked from that repository.
+submission-downloader downloads your submissions in bulk from [DMOJ](https://dmoj.ca/). You can tell it to download all your submissions, all the correct ones, or the best submission from each question. This complements [dmoj-submission-downloader](https://github.com/Ninjaclasher/dmoj-submission-downloader), which downloads all the submissions for a problem. Although the code shares some similiarities with it, it was not originally forked from that repository. [Here](https://github.com/ComputerGenius152/programming-solutions) is an example of downloaded code.
 
 ## Getting Started
 
@@ -35,11 +35,8 @@ optional arguments:
   --overwrite, -o  Overwrite existing downloaded submissions, recommended
   ```
 
-## Todo
-- Support for more online judges such as MCPT
-
 ## Contributing
-PRs and forks are welcome. Open an issue if you notice any bugs.
+PRs and forks are welcome. Please open an issue if you notice any bugs.
 
 ## Licence
-This project is licensed under the MIT license. For more information, refer to [LICENSE.md](LICENSE.md).
+This project is licensed under the GNU General Public License v3.0. For more information, refer to [LICENSE.md](LICENSE.md).
