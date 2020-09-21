@@ -63,8 +63,8 @@ class SubmissionDownloader:
                 if os.path.exists(filename):
                     pass
                 else:
-                    open(filename, "w").write(code)
                     print("Downloading {filename}...".format(filename=filename))
+                    open(filename, "w",encoding='utf-8').write(code)
         else:
             counter = 1
             for thing in submissions:
@@ -75,9 +75,9 @@ class SubmissionDownloader:
                     counter+=1
                 else:
                     counter = 1
-                open(filename, "w").write(code)
                 print("Downloading {filename}...".format(filename=filename))
-
+                open(filename, "w").write(code)
+                
     def download_submissions(self):
         print("Getting submission IDs...")
         submission_ids = self.get_submission_ids()
