@@ -64,7 +64,7 @@ class SubmissionDownloader:
                     pass
                 else:
                     print("Downloading {filename}...".format(filename=filename))
-                    open(filename, "w",encoding='utf-8').write(code)
+                    open(filename, "w", encoding='utf-8').write(code)
         else:
             counter = 1
             for thing in submissions:
@@ -77,7 +77,6 @@ class SubmissionDownloader:
                     counter = 1
                 print("Downloading {filename}...".format(filename=filename))
                 open(filename, "w").write(code)
-                
     def download_submissions(self):
         print("Getting submission IDs...")
         submission_ids = self.get_submission_ids()
