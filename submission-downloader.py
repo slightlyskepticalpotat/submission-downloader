@@ -8,8 +8,8 @@ import time
 
 class SubmissionDownloader:
     RATE_LIMIT = 0.67
-    DOWNLOAD_ORDER = {"AC": 0, "_AC": 1, "TLE": 2, "MLE": 3, "OLE": 4, "IR": 5, "RTE": 6, "CE": 7, "IE": 8, "AB": 9, "WA": 10} # from https://github.com/DMOJ/online-judge/blob/master/judge/models/submission.py#L34
-    FILE_EXTENSIONS = {"ADA": "ada", "AWK": "awk", "BF": "bf", "C": "c", "C11": "c", "CBL": "cbl", "CCL": "ccl", "CLANG": "c", "CLANGX": "c", "COFFEE": "coffee", "CPP03": "cpp", "CPP11": "cpp", "CPP14": "cpp", "CPP17": "cpp", "D": "d", "DART": "dart", "F95": "f95", "FORTH": "forth", "GAS32": "s", "GAS64": "s", "GASARM": "s", "GO": "go", "GROOVY": "groovy", "HASK": "hs", "ICK": "ick", "JAVA11": "java", "JAVA8": "java", "KOTLIN": "kt", "LUA": "lua", "MONOCS": "mono", "MONOFS": "mono", "MONOVB": "mono", "NASM": "asm", "NASM64": "asm", "NIM": "nim", "OBJC": "m", "OCAML": "ml", "OCTAVE": "m", "PAS": "pas", "PERL": "pl", "PHP": "php", "PIKE": "pike", "PRO": "pro", "PY2": "py", "PY3": "py", "PYPY": "py", "PYPY2": "py", "PYPY3": "py", "RKT": "rkt", "RUBY18": "rb", "RUBY2": "rb", "RUST": "rs", "SBCL": "lisp", "SCALA": "sc", "SCM": "scm", "SED": "sed", "SWIFT": "swift", "TCL": "tcl", "TEXT": "txt", "TUR": "t", "V8JS": "js", "VC": "c", "ZIG": "zig"} # languages allowed for helloworld
+    DOWNLOAD_ORDER = {"AC": 0, "_AC": 1, "TLE": 2, "MLE": 3, "OLE": 4, "IR": 5, "RTE": 6, "CE": 7, "IE": 8, "AB": 9, "WA": 10}  # from https://github.com/DMOJ/online-judge/blob/master/judge/models/submission.py#L34
+    FILE_EXTENSIONS = {"ADA": "ada", "AWK": "awk", "BF": "bf", "C": "c", "C11": "c", "CBL": "cbl", "CCL": "ccl", "CLANG": "c", "CLANGX": "c", "COFFEE": "coffee", "CPP03": "cpp", "CPP11": "cpp", "CPP14": "cpp", "CPP17": "cpp", "D": "d", "DART": "dart", "F95": "f95", "FORTH": "forth", "GAS32": "s", "GAS64": "s", "GASARM": "s", "GO": "go", "GROOVY": "groovy", "HASK": "hs", "ICK": "ick", "JAVA11": "java", "JAVA8": "java", "KOTLIN": "kt", "LUA": "lua", "MONOCS": "mono", "MONOFS": "mono", "MONOVB": "mono", "NASM": "asm", "NASM64": "asm", "NIM": "nim", "OBJC": "m", "OCAML": "ml", "OCTAVE": "m", "PAS": "pas", "PERL": "pl", "PHP": "php", "PIKE": "pike", "PRO": "pro", "PY2": "py", "PY3": "py", "PYPY": "py", "PYPY2": "py", "PYPY3": "py", "RKT": "rkt", "RUBY18": "rb", "RUBY2": "rb", "RUST": "rs", "SBCL": "lisp", "SCALA": "sc", "SCM": "scm", "SED": "sed", "SWIFT": "swift", "TCL": "tcl", "TEXT": "txt", "TUR": "t", "V8JS": "js", "VC": "c", "ZIG": "zig"}  # languages allowed for helloworld
 
     def __init__(self, apitoken=None, username=None, judge=None, aconly=None, best=None, fast=None, overwrite=None):
         self.apitoken = apitoken
@@ -20,14 +20,14 @@ class SubmissionDownloader:
         self.fast = fast
         self.overwrite = overwrite
 
-    def request(self, url, params): # send a request to the dmojv2 api
-        if self.fast == True:
+    def request(self, url, params):  # send a request to the dmojv2 api
+        if self.fast:
             pass
         else:
             time.sleep(self.RATE_LIMIT)
         return requests.get(url, headers={"User-Agent": "submission-downloader.py", "Authorization": "Bearer {apitoken}".format(apitoken=self.apitoken)}, params=params)
 
-    def get_submission_ids(self): # gets information about all submissions
+    def get_submission_ids(self):  # gets information about all submissions
         submission_ids = []
         total_pages = self.request(self.SUBMISSION_LIST, {"user": self.username}).json()["data"]["total_pages"]
         for i in range(1, total_pages + 1):
@@ -36,8 +36,8 @@ class SubmissionDownloader:
                 submission_ids.append([thing["problem"], thing["id"], thing["language"], thing["time"], thing["result"]])
         return submission_ids
 
-    def get_submission_sources(self, submissions): # downloads submissions, filters out the best
-        if self.overwrite == True:
+    def get_submission_sources(self, submissions):  # downloads submissions, filters out the best
+        if self.overwrite:
             try:
                 shutil.rmtree(self.judge+"downloaded-submissions")
             except:
@@ -50,12 +50,12 @@ class SubmissionDownloader:
             except:
                 pass
             os.chdir(self.judge+"-"+"downloaded-submissions")
-        if self.aconly == True:
+        if self.aconly:
             submissions = [thing for thing in submissions if thing[4] == "AC" or thing[4] == "_AC"]
         else:
             pass
-        if self.best == True:
-            submissions = sorted(submissions, key=lambda x: [self.DOWNLOAD_ORDER[x[4]], x[3]]) # sort by download order, then least time
+        if self.best:
+            submissions = sorted(submissions, key=lambda x: [self.DOWNLOAD_ORDER[x[4]], x[3]])  # sort by download order, then least time
             for thing in submissions:
                 code = self.request(self.SUBMISSION_SOURCE.format(submission_id=thing[1]), {}).text
                 filename = thing[0] + "." + self.FILE_EXTENSIONS[thing[2]]
@@ -71,7 +71,7 @@ class SubmissionDownloader:
                 filename = thing[0] + "." + self.FILE_EXTENSIONS[thing[2]]
                 if os.path.exists(filename):
                     filename = thing[0] + "-" + str(counter) + "." + self.FILE_EXTENSIONS[thing[2]]
-                    counter+=1
+                    counter += 1
                 else:
                     counter = 1
                 print("Downloading {filename}...".format(filename=filename))
