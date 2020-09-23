@@ -7,8 +7,6 @@ import time
 
 
 class SubmissionDownloader:
-    SUBMISSION_LIST = "https://dmoj.ca/api/v2/submissions"
-    SUBMISSION_SOURCE = "https://dmoj.ca/src/{submission_id}/raw"
     RATE_LIMIT = 0.67
     DOWNLOAD_ORDER = {"AC": 0, "_AC": 1, "TLE": 2, "MLE": 3, "OLE": 4, "IR": 5, "RTE": 6, "CE": 7, "IE": 8, "AB": 9, "WA": 10} # from https://github.com/DMOJ/online-judge/blob/master/judge/models/submission.py#L34
     FILE_EXTENSIONS = {"ADA": "ada", "AWK": "awk", "BF": "bf", "C": "c", "C11": "c", "CBL": "cbl", "CCL": "ccl", "CLANG": "c", "CLANGX": "c", "COFFEE": "coffee", "CPP03": "cpp", "CPP11": "cpp", "CPP14": "cpp", "CPP17": "cpp", "D": "d", "DART": "dart", "F95": "f95", "FORTH": "forth", "GAS32": "s", "GAS64": "s", "GASARM": "s", "GO": "go", "GROOVY": "groovy", "HASK": "hs", "ICK": "ick", "JAVA11": "java", "JAVA8": "java", "KOTLIN": "kt", "LUA": "lua", "MONOCS": "mono", "MONOFS": "mono", "MONOVB": "mono", "NASM": "asm", "NASM64": "asm", "NIM": "nim", "OBJC": "m", "OCAML": "ml", "OCTAVE": "m", "PAS": "pas", "PERL": "pl", "PHP": "php", "PIKE": "pike", "PRO": "pro", "PY2": "py", "PY3": "py", "PYPY": "py", "PYPY2": "py", "PYPY3": "py", "RKT": "rkt", "RUBY18": "rb", "RUBY2": "rb", "RUST": "rs", "SBCL": "lisp", "SCALA": "sc", "SCM": "scm", "SED": "sed", "SWIFT": "swift", "TCL": "tcl", "TEXT": "txt", "TUR": "t", "V8JS": "js", "VC": "c", "ZIG": "zig"} # languages allowed for helloworld
@@ -44,14 +42,14 @@ class SubmissionDownloader:
                 shutil.rmtree(self.judge+"downloaded-submissions")
             except:
                 pass
-            os.mkdir(self.judge+"downloaded-submissions")
-            os.chdir(self.judge+"downloaded-submissions")
+            os.mkdir(self.judge+"-"+"downloaded-submissions")
+            os.chdir(self.judge+"-"+"downloaded-submissions")
         else:
             try:
-                os.mkdir(self.judge+"downloaded-submissions")
+                os.mkdir(self.judge+"-"+"downloaded-submissions")
             except:
                 pass
-            os.chdir(self.judge+"downloaded-submissions")
+            os.chdir(self.judge+"-"+"downloaded-submissions")
         if self.aconly == True:
             submissions = [thing for thing in submissions if thing[4] == "AC" or thing[4] == "_AC"]
         else:
@@ -77,27 +75,13 @@ class SubmissionDownloader:
                 else:
                     counter = 1
                 print("Downloading {filename}...".format(filename=filename))
-                open(filename, "w").write(code)
+                open(filename, "w", encoding='utf-8').write(code)
+
     def download_submissions(self):
-        if self.judge is None:
-            self.judge = input("Enter judge url (eg. dmoj.ca):")
-        if self.username is None:
-            self.username = input("Enter username:")
-        if self.apitoken is None:
-            self.apitoken = input("Enter API token:")
-        if self.aconly is None:
-            self.aclonly = boolean(input("Only download submissions if they earn points? (1/0)"))
-        if self.best is None:
-            self.best = boolean(input("Only download the best submission for each problem and programming language? (1/0)"))
-        if self.fast is None:
-            self.fast = boolean(input("Ignore the DMOJ API ratelimit? (1/0)"))
-        if self.overwrite is None:
-            self.overwrite = boolean(input("Overwrite existing downloaded submissions, recommended? (1/0)"))
         self.SUBMISSION_LIST = "https://"+self.judge+"/api/v2/submissions"
         self.SUBMISSION_SOURCE = "https://"+self.judge+"/src/{submission_id}/raw"
         print("Getting submission IDs...")
-        submission_ids = self.get_submission_ids()
-        self.get_submission_sources(submission_ids)
+        self.get_submission_sources(self.get_submission_ids())
         print("{submissions} submissions downloaded.".format(submissions=len(os.listdir())))
 
 
@@ -105,7 +89,7 @@ def main():
     parser = argparse.ArgumentParser(description="Downloads online judge submissions from DMOJ.")
     parser.add_argument("apitoken", help="Your API token, can be retrived from your DMOJ profile", type=str)
     parser.add_argument("username", help="Your username, can be retrived from your DMOJ profile", type=str)
-    parser.add_argument("judge", help="Judge url (eg. 'dmoj.ca')", type=str)
+    parser.add_argument("judge", help="URL for the judge you are trying to download from, must support the DMOJ v2 API (https://dmoj.ca/api/#v2)", type=str)
     parser.add_argument("--aconly", "-a", default=False, action="store_true", help="Only download submissions if they earn points, recommended")
     parser.add_argument("--best", "-b", default=False, action="store_true", help="Only download the best submission for each problem and programming language, recommended")
     parser.add_argument("--fast", "-f", default=False, action="store_true", help="Ignore the DMOJ API ratelimit, not recommended")
