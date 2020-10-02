@@ -36,28 +36,13 @@ class SubmissionDownloader:
         """
         submission_ids = []
         total_pages = self.request(
-            self.SUBMISSION_LIST,
-            {
-                "user": self.username
-            }
+            self.SUBMISSION_LIST, {"user": self.username}
         ).json()["data"]["total_pages"]
         for i in range(1, total_pages + 1):
-            data = self.request(
-                self.SUBMISSION_LIST,
-                {
-                    "user": self.username,
-                    "page": i
-                }
-            ).json()["data"]["objects"]
+            data = self.request(self.SUBMISSION_LIST, {"user": self.username, "page": i}).json()["data"]["objects"]
             for thing in data:
                 submission_ids.append(
-                    [
-                        thing["problem"],
-                        thing["id"],
-                        thing["language"],
-                        thing["time"],
-                        thing["result"]
-                    ]
+                    [thing["problem"], thing["id"], thing["language"], thing["time"], thing["result"]]
                 )
         return submission_ids
 
