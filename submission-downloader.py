@@ -4,7 +4,7 @@ import requests
 import shutil
 import sys
 import time
-
+import urllib
 
 class SubmissionDownloader:
     RATE_LIMIT = 0.67
@@ -20,23 +20,37 @@ class SubmissionDownloader:
         self.fast = fast
         self.overwrite = overwrite
 
-    def request(self, url, params):  # send a request to the dmojv2 api
+    def request(self, url, params):
+        """
+        Sends a request to the v2 API
+        """
         if self.fast:
             pass
         else:
             time.sleep(self.RATE_LIMIT)
         return requests.get(url, headers={"User-Agent": "submission-downloader.py", "Authorization": "Bearer {apitoken}".format(apitoken=self.apitoken)}, params=params)
 
-    def get_submission_ids(self):  # gets information about all submissions
+    def get_submission_ids(self):
+        """
+        Gets information about submissions.
+        """
         submission_ids = []
-        total_pages = self.request(self.SUBMISSION_LIST, {"user": self.username}).json()["data"]["total_pages"]
+        total_pages = self.request(
+            self.SUBMISSION_LIST, {"user": self.username}
+        ).json()["data"]["total_pages"]
         for i in range(1, total_pages + 1):
             data = self.request(self.SUBMISSION_LIST, {"user": self.username, "page": i}).json()["data"]["objects"]
             for thing in data:
-                submission_ids.append([thing["problem"], thing["id"], thing["language"], thing["time"], thing["result"]])
+                submission_ids.append(
+                    [thing["problem"], thing["id"], thing["language"], thing["time"], thing["result"]]
+                )
         return submission_ids
 
-    def get_submission_sources(self, submissions):  # downloads submissions, filters out the best
+    def get_submission_sources(self, submissions):
+        """
+        Downloads submissions and filters the best submission.
+        """
+        # overwrite?
         if self.overwrite:
             try:
                 shutil.rmtree(self.judge+"-"+"downloaded-submissions")
@@ -50,10 +64,12 @@ class SubmissionDownloader:
             except:
                 pass
             os.chdir(self.judge+"-"+"downloaded-submissions")
+        # only ACs?
         if self.aconly:
             submissions = [thing for thing in submissions if thing[4] == "AC" or thing[4] == "_AC"]
         else:
             pass
+        # only best?
         if self.best:
             submissions = sorted(submissions, key=lambda x: [self.DOWNLOAD_ORDER[x[4]], x[3]])  # sort by download order, then least time
             for thing in submissions:
@@ -63,7 +79,7 @@ class SubmissionDownloader:
                     pass
                 else:
                     print("Downloading {filename}...".format(filename=filename))
-                    open(filename, "wU", encoding='utf-8').write(code)
+                    open(filename, "wb").write(code.encode('utf8'))
         else:
             counter = 1
             for thing in submissions:
@@ -75,17 +91,24 @@ class SubmissionDownloader:
                 else:
                     counter = 1
                 print("Downloading {filename}...".format(filename=filename))
-                open(filename, "wU", encoding='utf-8').write(code)
+                open(filename, "wb").write(code.encode('utf8'))
 
     def download_submissions(self):
-        self.SUBMISSION_LIST = "https://"+self.judge+"/api/v2/submissions"
-        self.SUBMISSION_SOURCE = "https://"+self.judge+"/src/{submission_id}/raw"
+        """
+        Downloads all user submissions from the judge
+        """
+        # get judge and submission URLs
+        self.SUBMISSION_LIST = "https://" + self.judge + "/api/v2/submissions"
+        self.SUBMISSION_SOURCE = "https://" + self.judge + "/src/{submission_id}/raw"
+        # print messages
+        print('Started fetching submissions from url {url}'.format(url=self.SUBMISSION_LIST))
         print("Getting submission IDs...")
+        # get all sources
         self.get_submission_sources(self.get_submission_ids())
         print("{submissions} submissions downloaded.".format(submissions=len(os.listdir())))
 
-
 def main():
+    # parse arguments
     parser = argparse.ArgumentParser(description="Downloads online judge submissions from DMOJ.")
     parser.add_argument("apitoken", help="Your API token, can be retrived from your DMOJ profile", type=str)
     parser.add_argument("username", help="Your username, can be retrived from your DMOJ profile", type=str)
@@ -95,8 +118,22 @@ def main():
     parser.add_argument("--fast", "-f", default=False, action="store_true", help="Ignore the DMOJ API ratelimit, not recommended")
     parser.add_argument("--overwrite", "-o", default=False, action="store_true", help="Overwrite existing downloaded submissions, recommended")
     arguments = parser.parse_args()
-    SubmissionDownloader(arguments.apitoken, arguments.username, arguments.judge, arguments.aconly, arguments.best, arguments.fast, arguments.overwrite).download_submissions()
-
+    # custom url parsing for judge
+    judge_url = urllib.parse.urlparse(arguments.judge)
+    judge = judge_url.path
+    # prefer netloc over path always
+    if judge_url.netloc:
+        judge = judge_url.netloc
+    # create instance of SubmissionDownloader
+    SubmissionDownloader(
+        arguments.apitoken,
+        arguments.username,
+        judge,
+        arguments.aconly,
+        arguments.best,
+        arguments.fast,
+        arguments.overwrite
+    ).download_submissions()
 
 if __name__ == "__main__":
     sys.exit(main())
