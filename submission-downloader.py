@@ -63,11 +63,7 @@ class SubmissionDownloader:
                     pass
                 else:
                     print("Downloading {filename}...".format(filename=filename))
-<<<<<<< HEAD
                     open(filename, "wU", encoding='utf-8').write(code)
-=======
-                    open(filename, "wb", encoding='utf-8').write(code)
->>>>>>> 550b0fc9b526e100083e3886090856ceca050d24
         else:
             counter = 1
             for thing in submissions:
@@ -79,11 +75,7 @@ class SubmissionDownloader:
                 else:
                     counter = 1
                 print("Downloading {filename}...".format(filename=filename))
-<<<<<<< HEAD
                 open(filename, "wU", encoding='utf-8').write(code)
-=======
-                open(filename, "wb", encoding='utf-8').write(code)
->>>>>>> 550b0fc9b526e100083e3886090856ceca050d24
 
     def download_submissions(self):
         self.SUBMISSION_LIST = "https://"+self.judge+"/api/v2/submissions"
