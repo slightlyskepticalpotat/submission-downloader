@@ -22,7 +22,7 @@ class SubmissionDownloader:
 
     def request(self, url, params):
         """
-        Sends a request to the v2 API
+        Sends a request using the v2 API.
         """
         if self.fast:
             pass
@@ -48,7 +48,7 @@ class SubmissionDownloader:
 
     def get_submission_sources(self, submissions):
         """
-        Downloads submissions and filters the best submission.
+        Downloads submissions and filters out the best.
         """
         # overwrite?
         if self.overwrite:
@@ -64,12 +64,10 @@ class SubmissionDownloader:
             except:
                 pass
             os.chdir(self.judge+"-"+"downloaded-submissions")
-        # only ACs?
         if self.aconly:
             submissions = [thing for thing in submissions if thing[4] == "AC" or thing[4] == "_AC"]
         else:
             pass
-        # only best?
         if self.best:
             submissions = sorted(submissions, key=lambda x: [self.DOWNLOAD_ORDER[x[4]], x[3]])  # sort by download order, then least time
             for thing in submissions:
@@ -95,20 +93,16 @@ class SubmissionDownloader:
 
     def download_submissions(self):
         """
-        Downloads all user submissions from the judge
+        Downloads all user submissions from the judge.
         """
-        # get judge and submission URLs
         self.SUBMISSION_LIST = "https://" + self.judge + "/api/v2/submissions"
         self.SUBMISSION_SOURCE = "https://" + self.judge + "/src/{submission_id}/raw"
-        # print messages
         print('Started fetching submissions from url {url}'.format(url=self.SUBMISSION_LIST))
         print("Getting submission IDs...")
-        # get all sources
         self.get_submission_sources(self.get_submission_ids())
         print("{submissions} submissions downloaded.".format(submissions=len(os.listdir())))
 
 def main():
-    # parse arguments
     parser = argparse.ArgumentParser(description="Downloads online judge submissions from DMOJ.")
     parser.add_argument("apitoken", help="Your API token, can be retrived from your DMOJ profile", type=str)
     parser.add_argument("username", help="Your username, can be retrived from your DMOJ profile", type=str)
@@ -118,13 +112,11 @@ def main():
     parser.add_argument("--fast", "-f", default=False, action="store_true", help="Ignore the DMOJ API ratelimit, not recommended")
     parser.add_argument("--overwrite", "-o", default=False, action="store_true", help="Overwrite existing downloaded submissions, recommended")
     arguments = parser.parse_args()
-    # custom url parsing for judge
+    # custom url parsing for judge, always prefer netloc over path
     judge_url = urllib.parse.urlparse(arguments.judge)
     judge = judge_url.path
-    # prefer netloc over path always
     if judge_url.netloc:
         judge = judge_url.netloc
-    # create instance of SubmissionDownloader
     SubmissionDownloader(
         arguments.apitoken,
         arguments.username,
