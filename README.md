@@ -1,5 +1,5 @@
 # submission-downloader
-submission-downloader downloads your submissions in bulk from [DMOJ](https://dmoj.ca/). You can tell it to download all your submissions, all the correct ones, or the best submission from each question. This complements [dmoj-submission-downloader](https://github.com/Ninjaclasher/dmoj-submission-downloader), which downloads all the submissions for a problem. Although the code shares some similiarities with it, it was not originally forked from that repository. [Here](https://github.com/ComputerGenius152/programming-solutions) is an example of downloaded code.
+submission-downloader downloads your submissions in bulk from the [DMOJ](https://dmoj.ca/) website and compatible forks. There are a variety of options you can use to select what programs you want to download. This complements [dmoj-submission-downloader](https://github.com/Ninjaclasher/dmoj-submission-downloader), which downloads all the submissions for a problem. [Here](https://github.com/ComputerGenius152/programming-solutions) is an example of submissions that have been downloaded.
 
 ## Getting Started
 
