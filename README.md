@@ -3,37 +3,41 @@ submission-downloader downloads your submissions in bulk from the [DMOJ](https:/
 
 ## Getting Started
 
-### Installing
-This program can be installed in two different ways. You can clone the repository and run the code yourself with Python 3 (recommended) or download prebuilt binaries that will run without Python (convenient) from our releases page:
+### Installing and Running
+This program can be installed in two different ways. You can install it directly with pip (recommended), or clone the repository and run the code yourself. Either way, you will need Python 3.8 or higher to run the code.
 
-1. Install the prerequisites with ```$ pip3 install -r requirements.txt```. Next, download [submission-downloader.py](submission-downloader.py). Run the program with ```python3 submission-downloader.py```.
+#### With Pip
+```
+$ pip3 install submission_downloader
+$ python3 -m submission_downloader
+```
 
-2. Go to the [releases page](https://github.com/ComputerGenius152/submission-downloader/releases) and download the prebuilt binary file for your operating system. You can run the program with ```./submission-downloader``` or ```submission-downloader.exe```.
+#### Manually
+```
+$ git clone https://github.com/ComputerGenius152/submission-downloader.git
+$ cd submission-downloader
+$ pip3 install -r requirements.txt
+$ python3 submission_downloader.py
+```
 
 ### Usage
-
-If you have downloaded the binaries, use ```./submission-downloader``` or ```submission-downloader.exe``` instead of ```python3 submission-downloader.py```.
-
 ```
-$ python3 submission-downloader.py --help
-usage: submission-downloader.py [-h] [--aconly] [--best] [--fast]
-                                [--overwrite]
-                                apitoken username
+usage: submission_downloader.py [-h] [--aconly] [--best] [--fast] [--overwrite] apitoken username judge
 
 Downloads online judge submissions from DMOJ.
 
 positional arguments:
   apitoken         Your API token, can be retrived from your DMOJ profile
   username         Your username, can be retrived from your DMOJ profile
+  judge            URL for the judge you are trying to download from, must support the DMOJ v2 API (https://dmoj.ca/api/#v2)
 
 optional arguments:
   -h, --help       show this help message and exit
   --aconly, -a     Only download submissions if they earn points, recommended
-  --best, -b       Only download the best submission for each problem,
-                   recommended
+  --best, -b       Only download the best submission for each problem and programming language, recommended
   --fast, -f       Ignore the DMOJ API ratelimit, not recommended
   --overwrite, -o  Overwrite existing downloaded submissions, recommended
-  ```
+```
 
 ## Contributing
 PRs and forks are welcome. Please open an issue if you notice any bugs.
