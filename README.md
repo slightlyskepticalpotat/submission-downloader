@@ -1,5 +1,5 @@
 # submission-downloader
-submission-downloader downloads your submissions in bulk from the [DMOJ](https://dmoj.ca/) website and compatible forks. There are a variety of options you can use to select what programs you want to download. This complements [dmoj-submission-downloader](https://github.com/Ninjaclasher/dmoj-submission-downloader), which downloads all the submissions for a problem. [Here](https://github.com/ComputerGenius152/programming-solutions) is an example of submissions that have been downloaded.
+submission-downloader downloads your submissions in bulk from the [DMOJ](https://dmoj.ca/) website and compatible forks. There are a variety of options you can use to select what programs you want to download. This complements [dmoj-submission-downloader](https://github.com/Ninjaclasher/dmoj-submission-downloader), which downloads all the submissions for a problem. [Here](https://github.com/slightlyskepticalpotat/programming-solutions) is an example of submissions that have been downloaded.
 
 ## Getting Started
 
@@ -14,7 +14,7 @@ $ python3 -m submission_downloader
 
 #### Manually
 ```
-$ git clone https://github.com/ComputerGenius152/submission-downloader.git
+$ git clone https://github.com/slightlyskepticalpotat/submission-downloader.git
 $ cd submission-downloader
 $ pip3 install -r requirements.txt
 $ python3 submission_downloader.py
@@ -43,4 +43,4 @@ optional arguments:
 PRs and forks are welcome. Please open an issue if you notice any bugs.
 
 ## Licence
-This project is licensed under the GNU General Public License v3.0. For more information, refer to [LICENSE.md](LICENSE.md).
+This project is licensed under the GNU Affero General Public License v3.0. For more information, refer to [LICENSE.md](LICENSE.md).
